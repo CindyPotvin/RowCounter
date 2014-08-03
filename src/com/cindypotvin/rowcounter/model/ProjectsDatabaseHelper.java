@@ -25,6 +25,53 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Deletes the specified row counter from the database.
+	 * 
+	 * @param rowCounter the row counter to remove.
+	 */
+	public void deleteRowCounter(RowCounter rowCounter) {
+		SQLiteDatabase db = getWritableDatabase();
+		
+		db.delete(RowCounterContract.TABLE_NAME, 			  
+				  RowCounterContract.RowCounterEntry._ID +"=?",
+				  new String[] { String.valueOf(rowCounter.getId()) });
+	}
+
+	/**
+	 * Gets the specified project from the database.
+	 * 
+	 * @param projectId the identifier of the project to get.
+	 * 
+	 * @return the specified project.
+	 */
+	public Project getProject(long projectId) {
+		// Gets the database in the current database helper in read-only mode
+		SQLiteDatabase db = getReadableDatabase();
+		
+		// After the query, the cursor points to the first database row 
+		// returned by the request
+		Cursor projCursor = db.query(ProjectContract.TABLE_NAME, 
+									 null, 
+									 ProjectContract.ProjectEntry._ID + "=?", 
+									 new String[] { String.valueOf(projectId) }, 
+									 null, 
+									 null,
+									 null);
+		projCursor.moveToNext();
+	   // Get the value for each column for the database row pointed by 
+	   // the cursor using the getColumnIndex method of the cursor and 
+	   // use it to initialize a Project object by database row
+		Project project = new Project();
+		project.setId(projCursor.getLong(projCursor.getColumnIndex(ProjectContract.ProjectEntry._ID)));
+	    project.setName(projCursor.getString(projCursor.getColumnIndex(ProjectContract.ProjectEntry.COLUMN_NAME_TITLE)));
+	    // Get all the row counters for the current project from the 
+	    // database and add them all to the Project object
+		project.setRowCounters(getRowCounters(projectId));
+			
+	    return (project);
+		}
+	
+	/**
 	 * Gets the list of projects from the database.
 	 * 
 	 * @return the current projects from the database.
@@ -61,6 +108,7 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 	 * 
 	 * @param projectId the unique identifier of the project for which to get 
 	 * the row counters.
+	 * 
 	 * @return the row counters for the specified project, or an empty arraylist 
 	 * if no counter was found.
 	 */
@@ -76,7 +124,7 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 									  new String[]{ String.valueOf(projectId) }, 
 									  null, 
 									  null, 
-									  null);
+									  RowCounterContract.RowCounterEntry._ID);
 		// After the query, the cursor points to the first database row 
 		//returned by the request.
 		while (countCursor.moveToNext()) {
@@ -90,7 +138,7 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 			rowCounter.setCurrentAmount(currentAmount);
 			
 			long finalAmount = countCursor.getLong(countCursor.getColumnIndex(RowCounterContract.RowCounterEntry.COLUMN_NAME_FINAL_AMOUNT));
-			rowCounter.setCurrentAmount(finalAmount);
+			rowCounter.setFinalAmount(finalAmount);
 			
 			rowCounters.add(rowCounter);
 			}
@@ -118,9 +166,9 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
         // just created in the database (the insert method returns the 
         // identifier of the row)
 		ContentValues firstProjectCounterValues = new ContentValues();
-		firstProjectValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_PROJECT_ID, projectId);
-		firstProjectValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_FINAL_AMOUNT, 120);
-		db.insert(ProjectContract.TABLE_NAME, null, firstProjectCounterValues);
+		firstProjectCounterValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_PROJECT_ID, projectId);
+		firstProjectCounterValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_FINAL_AMOUNT, 120);
+		db.insert(RowCounterContract.TABLE_NAME, null, firstProjectCounterValues);
 		
 		// Insert the database row for a second example project in the project 
 		// table in the database.
@@ -132,8 +180,8 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 		ContentValues secondProjectCounterValues = new ContentValues();
 		secondProjectCounterValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_PROJECT_ID, projectId);
 		secondProjectCounterValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_FINAL_AMOUNT, 80);
-		db.insert(ProjectContract.TABLE_NAME, null, secondProjectCounterValues);
-		db.insert(ProjectContract.TABLE_NAME, null, secondProjectCounterValues);	
+		db.insert(RowCounterContract.TABLE_NAME, null, secondProjectCounterValues);
+		db.insert(RowCounterContract.TABLE_NAME, null, secondProjectCounterValues);	
 		}
 	
 	/**
@@ -160,6 +208,7 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 	 * This method must be implemented if your application is upgraded and must
 	 * include the SQL query to upgrade the database from your old to your new
 	 * schema.
+	 * 
 	 * @param db the database being upgraded.
 	 * @param oldVersion the current version of the database before the upgrade.
 	 * @param newVersion the version of the database after the upgrade.
@@ -170,4 +219,23 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 		Log.i(ProjectsDatabaseHelper.class.getSimpleName(),
 				"Upgrading database from version " + oldVersion + " to " + newVersion);
 	}
+	
+	/**
+	 * Updates the current amount of the row counter in the database to the value 
+	 * in the object passed as a parameter.
+	 * 
+	 * @param rowCounter the object containing the current amount to set.
+	 */
+	public void updateRowCounterCurrentAmount(RowCounter rowCounter) {
+		SQLiteDatabase db = getWritableDatabase();
+		
+		ContentValues currentAmountValue = new ContentValues();
+		currentAmountValue.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_CURRENT_AMOUNT, rowCounter.getCurrentAmount());
+		
+		db.update(RowCounterContract.TABLE_NAME, 
+				  currentAmountValue, 
+				  RowCounterContract.RowCounterEntry._ID +"=?",
+				  new String[] { String.valueOf(rowCounter.getId()) });
+	}
 }
+

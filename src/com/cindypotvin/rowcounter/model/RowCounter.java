@@ -8,7 +8,16 @@ public class RowCounter {
 	private long mId;
 	private long mFinalAmount;
 	private long mCurrentAmount;
-
+	
+	/**
+	 * Adds one row to the row counter. If the value is already at the final 
+	 * value for the counter, nothing is done.
+	 */
+	public void addOneRow() {
+		if (mCurrentAmount < mFinalAmount)
+			mCurrentAmount++;
+	}
+	
 	/**
 	 * Gets the current amount of the row counter.
 	 * 
@@ -17,14 +26,14 @@ public class RowCounter {
 	public long getCurrentAmount() {
 		return (mCurrentAmount);
 	}
-
+	
 	/**
-	 * Sets the current amount of the row counter.
+	 * Gets the final amount the counter will reach.
 	 * 
-	 * @param currentAmount the amount to set.
+	 * @return the final amount for the counter.
 	 */
-	public void setCurrentAmount(long currentAmount) {
-		mCurrentAmount = currentAmount;
+	public long getFinalAmount() {
+		return (mFinalAmount);
 	}
 
 	/**
@@ -37,29 +46,47 @@ public class RowCounter {
 	}
 
 	/**
+	 * Removes one row from the row counter. If the value is already 0, nothing
+	 * is done.
+	 */
+	public void removeOneRow() {
+		if (mCurrentAmount > 0)
+			mCurrentAmount--;
+	}
+	
+	/**
+	 * Sets the current amount of the row counter.
+	 * 
+	 * @param currentAmount
+	 *            the amount to set.
+	 */
+	public void setCurrentAmount(long currentAmount) {
+		mCurrentAmount = currentAmount;
+	}
+	
+	/**
+	 * Sets the final amount that the counter can reach.
+	 * 
+	 * @param finalAmount
+	 *            the final amount that can be reached.
+	 */
+	public void setFinalAmount(long finalAmount) {
+		mFinalAmount = finalAmount;
+	}
+
+	/**
 	 * Sets the identifier of the row counter.
 	 * 
-	 * @param id the identifier to set.
+	 * @param id
+	 *            the identifier to set.
 	 */
 	public void setId(long id) {
 		mId = id;
 	}
 
-	/**
-	 * Gets the final amount the counter will reach.
-	 * 
-	 * @return the final amount for the counter.
-	 */
-	public long getFinalAmount() {
-		return (mFinalAmount);
-	}
-
-	/**
-	 * Sets the final amount that the counter can reach.
-	 * 
-	 * @param finalAmount the final amount that can be reached.
-	 */
-	public void setFinalAmount(long finalAmount) {
-		mFinalAmount = finalAmount;
+	@Override
+	public String toString() {
+		//Returns the value to display for the row counter
+		return (mCurrentAmount + "/" + mFinalAmount);
 	}
 }
