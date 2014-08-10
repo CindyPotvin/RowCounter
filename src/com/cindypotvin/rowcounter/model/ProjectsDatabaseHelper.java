@@ -198,8 +198,7 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 		// Create the database to contain the data for the projects
 		db.execSQL(ProjectContract.SQL_CREATE_TABLE);
 		db.execSQL(RowCounterContract.SQL_CREATE_TABLE);
-		//TODO:Update the data in the database
-		//TODO:Delete a row with an X
+		
 		initializeExampleData(db);
 	}
 
