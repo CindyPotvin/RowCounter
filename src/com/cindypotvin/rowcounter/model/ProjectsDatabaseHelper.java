@@ -68,6 +68,8 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 	    // database and add them all to the Project object
 		project.setRowCounters(getRowCounters(projectId));
 			
+		projCursor.close();
+		
 	    return (project);
 		}
 	
@@ -99,6 +101,8 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 			
 			projects.add(project);
 			}
+		
+		projCursor.close();
 		
 		return (projects);
 		}
@@ -142,6 +146,8 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 			
 			rowCounters.add(rowCounter);
 			}
+		
+		countCursor.close();
 		
 		return (rowCounters);
 	    }
