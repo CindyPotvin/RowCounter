@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Compteur de rangs</string>
+    
+     <!-- Strings for the main activity -->
+    <string name="create_project_activity_button">Créer un nouveau projet</string>
+    
+    <!-- Strings for the create project activity -->
+    
+    <string name="create_project_name_hint">Nom du projet</string>
+    <string name="create_project_create_button">Créer le projet</string>
+    <string name="row_counters_amount_label">Nombre de compteurs à créer:</string>
+    <string name="rows_amount_label">Nombre de rangs par compteur :</string>
+</resources>

@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 /**
 * The main activity of the application showing a list of projects. 
@@ -25,8 +27,30 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.main_activity);
 
+		// Sets the button that starts the activity to create a new project
+		Button createProjectActivityButton = (Button) findViewById(R.id.create_project_activity_button);
+		createProjectActivityButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Open the activity to create a new project
+				Intent createProjectIntent = new Intent(MainActivity.this, CreateProjectActivity.class);
+				MainActivity.this.startActivity(createProjectIntent);	
+			}
+		});
+		
+	}
+	
+	@Override
+	protected void onStart()
+		{
+		super.onStart();
+				
+		// Loads the projects during the onStart so they are reloaded when the activity is resumed 
+		// after creating a new project
+		
 		// Gets the database helper to access the database for the application
 		ProjectsDatabaseHelper database = new ProjectsDatabaseHelper(this);
 		// Use the helper to get the list of projects from the database

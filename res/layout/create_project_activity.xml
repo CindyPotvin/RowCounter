@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+	    android:id="@+id/create_project_name"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/create_project_name_hint" />
+    
+    <TextView
+        android:id="@+id/row_counters_amount_label" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/row_counters_amount_label" />
+        
+	<com.cindypotvin.rowcounter.CounterView
+	    android:id="@+id/row_counters_amount"
+	    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"/>
+	
+    <TextView
+        android:id="@+id/rows_amount_label" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rows_amount_label" />
+	
+	<com.cindypotvin.rowcounter.CounterView
+	    android:id="@+id/rows_amount"
+	    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"/>
+     
+	<Button
+        android:id="@+id/create_project_create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_project_create_button" /> 
+    
+</LinearLayout>

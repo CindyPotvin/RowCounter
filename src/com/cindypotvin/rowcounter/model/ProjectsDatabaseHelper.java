@@ -24,6 +24,31 @@ public class ProjectsDatabaseHelper extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
+
+	/**
+	 * Create a new project in the database with its row counters.
+	 * 
+	 * @param projectName the name of the project to create.
+	 * @param rowCounterAmount the amount of row counters to create for the project.
+	 * @param rowsAmount the amount of row for each row counter of the project.
+	 */
+	public void createProject(String projectName, int rowCounterAmount, int rowsAmount) {
+		SQLiteDatabase db = getWritableDatabase();
+		
+		// Create the database row for the project and keep its unique identifier
+		ContentValues projectValues = new ContentValues();
+		projectValues.put(ProjectContract.ProjectEntry.COLUMN_NAME_TITLE, projectName);
+		long projectId;
+		projectId = db.insert(ProjectContract.TABLE_NAME, null, projectValues);
+		// Insert the database rows for the row counters of the project in the database
+		for (int i=0; i < rowCounterAmount; i++) {
+			ContentValues rowCounterValues = new ContentValues();
+			rowCounterValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_PROJECT_ID, projectId);
+			rowCounterValues.put(RowCounterContract.RowCounterEntry.COLUMN_NAME_FINAL_AMOUNT, rowsAmount);
+			db.insert(RowCounterContract.TABLE_NAME, null, rowCounterValues);
+		}
+	}
+	
 	/**
 	 * Deletes the specified row counter from the database.
 	 * 

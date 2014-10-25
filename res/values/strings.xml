@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Knitting Project Row Counter</string>
-
+    
+    <!-- Strings for the main activity -->
+    <string name="create_project_activity_button">Create new project</string>
+    
+    <!-- Strings for the create project activity -->
+    <string name="create_project_name_hint">Project name</string>
+    <string name="create_project_create_button">Create project</string>
+    <string name="row_counters_amount_label">Amount of counters to create :</string>
+    <string name="rows_amount_label">Amount of rows by counter :</string>
 </resources>
