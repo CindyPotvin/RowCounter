@@ -74,8 +74,8 @@ public class CreateProjectActivity extends Activity {
 		// Check if a previously destroyed activity is being recreated.
 		if (savedInstanceState != null) {
 			// Restore value of counters from saved state
-			mRowsAmountView.setValue(savedInstanceState.getInt(ROW_COUNTERS_AMOUNT_STATE));
-			mRowCountersAmountView.setValue(savedInstanceState.getInt(ROWS_AMOUNT_STATE));
+			mRowCountersAmountView.setValue(savedInstanceState.getInt(ROW_COUNTERS_AMOUNT_STATE));
+			mRowsAmountView.setValue(savedInstanceState.getInt(ROWS_AMOUNT_STATE));
 		} 
 	}
 	
@@ -86,8 +86,8 @@ public class CreateProjectActivity extends Activity {
 	    // Restore value of counters from saved state. This is the same as restoring from the 
 	    // onCreate and is executed after onCreate
 	    
-		mRowsAmountView.setValue(savedInstanceState.getInt(ROW_COUNTERS_AMOUNT_STATE));
-		mRowCountersAmountView.setValue(savedInstanceState.getInt(ROWS_AMOUNT_STATE));
+	    mRowCountersAmountView.setValue(savedInstanceState.getInt(ROW_COUNTERS_AMOUNT_STATE));
+	    mRowsAmountView.setValue(savedInstanceState.getInt(ROWS_AMOUNT_STATE));
 	}
 
 	

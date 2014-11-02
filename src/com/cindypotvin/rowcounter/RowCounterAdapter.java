@@ -53,10 +53,6 @@ public class RowCounterAdapter extends ArrayAdapter<RowCounter> {
             	// Remove one from the row counter object
             	clickedRowCounter.removeOneRow();
             	
-            	// Update the database with the new value
-            	ProjectsDatabaseHelper database = new ProjectsDatabaseHelper(getContext());
-            	database.updateRowCounterCurrentAmount(clickedRowCounter);
-            	
             	// Refresh the value displayed for the counter
             	TextView parentView = (TextView)((View)view.getParent()).findViewById(R.id.row_counter_value);
             	parentView.setText(clickedRowCounter.toString());
@@ -72,10 +68,6 @@ public class RowCounterAdapter extends ArrayAdapter<RowCounter> {
             	
             	// Add one to the row counter object
             	clickedRowCounter.addOneRow();
-            	
-            	// Update the database with the new value
-            	ProjectsDatabaseHelper database = new ProjectsDatabaseHelper(getContext());
-            	database.updateRowCounterCurrentAmount(clickedRowCounter);
             	
             	// Refresh the value displayed for the counter
             	TextView parentView = (TextView)((View)view.getParent()).findViewById(R.id.row_counter_value);

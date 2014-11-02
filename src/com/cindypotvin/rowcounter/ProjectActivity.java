@@ -1,7 +1,10 @@
 package com.cindypotvin.rowcounter;
 
+import java.util.ArrayList;
+
 import com.cindypotvin.rowcounter.model.Project;
 import com.cindypotvin.rowcounter.model.ProjectsDatabaseHelper;
+import com.cindypotvin.rowcounter.model.RowCounter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +16,12 @@ import android.widget.TextView;
 /**
  * Shows a single project with its row counters.
  */
-public class ProjectActivity extends Activity{
+public class ProjectActivity extends Activity {
+	
+	/**
+	 * The data for the row counters being displayed for the project shown.
+	 */
+	private ArrayList<RowCounter> mRowCounters;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +43,24 @@ public class ProjectActivity extends Activity{
 		// Initialize the listview to show the row counters for the project from 
 		// the database
         ListView rowCounterList = (ListView)findViewById(R.id.row_counter_list);
+        mRowCounters = currentProject.getRowCounters();
         ListAdapter rowCounterListAdapter = new RowCounterAdapter(this,
         													      R.layout.rowcounter_row,
         													      currentProject.getRowCounters());
         rowCounterList.setAdapter(rowCounterListAdapter);
+	}
+
+	
+	@Override
+	public void onPause() {
+	    super.onPause();  
+	    
+    	ProjectsDatabaseHelper database = new ProjectsDatabaseHelper(this);
+	    
+	    // Save the value of all the counters for the project to the database since the activity is
+	    // destroyed or send to the background
+	    for (RowCounter rowCounter: mRowCounters) {
+	    	database.updateRowCounterCurrentAmount(rowCounter);
+	    }   
 	}
 }
